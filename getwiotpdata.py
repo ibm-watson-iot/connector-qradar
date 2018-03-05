@@ -51,12 +51,15 @@ def processLogEvent(log, verbose):
     # This function parses log event and generate syslog event.
     # Log event from WIoTP is in JSON format. Example of a typical log event:
     # {"timestamp": "2018-02-28T20:02:50.585Z", "message": "Token auth succeeded: ClientID='d:li0f0v:NXPDev:testSub', ClientIP=32.97.110.54"}
+
+    # SYSLOG Event format:
+    # <timestamp> <APPNAME>: <level>: <source>: EventID=<event> EventCategory=<cat> ClientID=<clientid> Message=<Raw log message>
+
     timestamp = log["timestamp"]
     msg = log["message"]
 
     syslog_header = "%s " % (timestamp)
     headMsg = syslog_header + APPNAME + "INFO: "
-    dMsg = None
 
     # Parse authentication messages
     mObj = authREObj.match(msg)
@@ -64,12 +67,12 @@ def processLogEvent(log, verbose):
         message = mObj.group(1)
         clientId = mObj.group(2)
         IP = mObj.group(3)
-        type = "Token"
-        event = "AuthSucceeded"
+        event = "Authentication"
+        cat = "Succeeded"
         if "failed" in message:
-            event = "AuthFailed"
+            cat = "Failed"
             headMsg = syslog_header + APPNAME + "ERROR: "
-        eventMsg = "%s%s: EventID=%s Type=%s ClientID=%s Message=%s" % (headMsg, IP,event,type,clientId,message)
+        eventMsg = "%s%s: EventID=%s EventCategory=%s ClientID=%s Message=%s" % (headMsg,IP,event,cat,clientId,message)
         if verbose:
             print( "Event: " + eventMsg)
         logger.info(eventMsg)
@@ -79,14 +82,16 @@ def processLogEvent(log, verbose):
     mObj = connREObj.match(msg)
     if mObj:
         message = mObj.group(2)
+        clientId = "Unknown"
         IP = mObj.group(1)
-        type = "Normal"
-        event = "ConnClosed"
-        if "by client" in message:
-            type = "ByClient"
+        event = "Closed"
+        cat = "Normal"
+        if "by the client" in message:
+            cat = "ByClient"
         if "not authorized" in message:
-            type = "Unauthorized"
-        eventMsg = "%s%s: EventID=%s Type=%s ClientID=Unknown Message=%s" % (headMsg,IP,event,type,message)
+            cat = "Unauthorized"
+            headMsg = syslog_header + APPNAME + "ERROR: "
+        eventMsg = "%s%s: EventID=%s EventCategory=%s ClientID=%s Message=%s" % (headMsg,IP,event,cat,clientId,message)
         if verbose:
             print( "Event: " + eventMsg)
         logger.info(eventMsg)
@@ -94,22 +99,17 @@ def processLogEvent(log, verbose):
         
     # Process generic log
     # check if ClientIP is specified in message
-    event = "Unknown"
+    event = "Genric"
+    clientId = "Unknown"
+    cat = "NA"
+    IP = "Unknown"
     mObj = genrREObj.match(msg)
     if mObj:
         IP = mObj.group(2)
-        dMsg = "%s: EventID=%s Type=Unknown ClientID=Unknown Message=%s" % (IP,event,message)
-    else:
-        dMsg = "Unknown: EventID=Unknown Type=Unknown ClientID=Unknown Message=%s" % (json.dumps(log))
+    eventMsg = "%s%s: EventID=%s EventCategory=%s ClientID=%s Message=%s" % (headMsg,IP,event,cat,clientId,log)
 
-    if dMsg != None:
-        eventMsg = headMsg + dMsg
-        if verbose:
-            print( "Event: " + eventMsg)
-    else:
-        eventMsg = headMsg + log
-        if verbose:
-            print( "Event: " + eventMsg)
+    if verbose:
+        print( "Event: " + eventMsg)
     logger.info(eventMsg)
 
 
