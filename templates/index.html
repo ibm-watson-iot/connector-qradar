@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<html>
+<head>
+<style type="text/css">
+img {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+}
+</style>
+
+<script>
+    function submitForm(type, thisForm) {
+        var opt = document.getElementById('actionOptions').value;
+        if ( opt != Invalid )
+        document.getElementById('actionName').value = type;
+        thisForm.submit();
+    }
+</script>
+</head>
+<body>
+    
+<div style="background-color: white; width: 600px; padding: 5px;">
+    <img src="https://www-03.ibm.com/press/us/en/attachment/20190.wss?fileId=ATTACH_FILE0&fileName=ibmpos_blue_thumb.jpg" >
+    <font face="verdana" size="6" color="#993333"> &nbsp; Watson IoT Platform </font>
+</div>
+
+<h2>QRadar connector Application</h2>
+
+This application performs the following tasks: <br>
+<ul><li>Makes REST calls to get connection logs from WIoTP</li>
+<li>Normalize the data needed for QRadar integration</li>
+<li>Creates syslog events and send to QRadar log server</li></ul> </p>
+
+<form method="post" action="/start" target="_actionResults">
+<input type="submit" value="Start Application">
+</form>
+
+</body>
+</html>
+
