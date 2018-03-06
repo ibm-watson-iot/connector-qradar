@@ -47,13 +47,13 @@ genrREObj = re.compile(r'(.*)ClientIP=(.*)')
 #
 # Function to process device log messages and generate syslog events
 #
-def processLogEvent(log, verbose):
+def processLogEvent(devType, devId, log, verbose):
     # This function parses log event and generate syslog event.
     # Log event from WIoTP is in JSON format. Example of a typical log event:
     # {"timestamp": "2018-02-28T20:02:50.585Z", "message": "Token auth succeeded: ClientID='d:li0f0v:NXPDev:testSub', ClientIP=32.97.110.54"}
 
     # SYSLOG Event format:
-    # <timestamp> <APPNAME>: <level>: <source>: EventID=<event> EventCategory=<cat> ClientID=<clientid> Message=<Raw log message>
+    # <timestamp> <APPNAME>: <level>: <source>: event=<event> state=<state> devType=<devType> devId=<devId> clientID=<clientID> Message=<Raw log message>
 
     timestamp = log["timestamp"]
     msg = log["message"]
@@ -68,11 +68,11 @@ def processLogEvent(log, verbose):
         clientId = mObj.group(2)
         IP = mObj.group(3)
         event = "Authentication"
-        cat = "Succeeded"
+        state = "Succeeded"
         if "failed" in message:
-            cat = "Failed"
+            state = "Failed"
             headMsg = syslog_header + APPNAME + "ERROR: "
-        eventMsg = "%s%s: EventID=%s EventCategory=%s ClientID=%s Message=%s" % (headMsg,IP,event,cat,clientId,message)
+        eventMsg = "%s%s: event=%s state=%s devType=%s devId=%s clientID=%s Message=%s" % (headMsg, IP, event, state, devType, devId, clientId, message)
         if verbose:
             print( "Event: " + eventMsg)
         logger.info(eventMsg)
@@ -82,16 +82,17 @@ def processLogEvent(log, verbose):
     mObj = connREObj.match(msg)
     if mObj:
         message = mObj.group(2)
-        clientId = "Unknown"
+        clientId = "NA"
         IP = mObj.group(1)
         event = "Closed"
-        cat = "Normal"
+        state = "Normal"
         if "by the client" in message:
-            cat = "ByClient"
+            state = "ByClient"
         if "not authorized" in message:
-            cat = "Unauthorized"
+            event = "Operation"
+            state = "Unauthorized"
             headMsg = syslog_header + APPNAME + "ERROR: "
-        eventMsg = "%s%s: EventID=%s EventCategory=%s ClientID=%s Message=%s" % (headMsg,IP,event,cat,clientId,message)
+        eventMsg = "%s%s: event=%s state=%s devType=%s devId=%s clientID=%s Message=%s" % (headMsg, IP, event, state, devType, devId, clientId, message)
         if verbose:
             print( "Event: " + eventMsg)
         logger.info(eventMsg)
@@ -100,14 +101,13 @@ def processLogEvent(log, verbose):
     # Process generic log
     # check if ClientIP is specified in message
     event = "Genric"
-    clientId = "Unknown"
-    cat = "NA"
-    IP = "Unknown"
+    clientId = "NA"
+    state = "NA"
+    IP = "NA"
     mObj = genrREObj.match(msg)
     if mObj:
         IP = mObj.group(2)
-    eventMsg = "%s%s: EventID=%s EventCategory=%s ClientID=%s Message=%s" % (headMsg,IP,event,cat,clientId,log)
-
+    eventMsg = "%s%s: event=%s state=%s devType=%s devId=%s clientID=%s Message=%s" % (headMsg, IP, event, state, devType, devId, clientId, log)
     if verbose:
         print( "Event: " + eventMsg)
     logger.info(eventMsg)
@@ -151,7 +151,7 @@ def _getPageOfDevices(client, device_limit, log_limit, verbose, bookmark):
  
   
             for log in logresults:
-                processLogEvent(log, verbose)
+                processLogEvent(typeId, deviceId, log, verbose)
                 if verbose:
                     print(json.dumps(log))
 
