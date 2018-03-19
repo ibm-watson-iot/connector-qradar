@@ -7,8 +7,13 @@
 # http://www.eclipse.org/legal/epl-v10.html
 #
 # Contributors:
+#    Ranjan Dasgupta             - Initial drop for Alpha release
 #
 # *****************************************************************************
+
+#
+# Connector application used for inegrating Watson IoT Platform with QRadar
+#
 
 import os
 import logging
@@ -24,11 +29,21 @@ import re
 import ibmiotf
 import ibmiotf.application
 import ConfigParser
+import signal
+import socket
 
+# SYSLOG setup
+# Application names - 
+APPNAMECONNECTION = "wiotp_qradar:1.0:Connection "
+# APPNAMEDEVICEMGMT = "wiotp_qradar:1.0:DevMgmt "
+sysLogger = logging.getLogger('WIOTPSYSLOG')
 
-# SYSLOG setup - Application name and logger
-APPNAME = "WIoTP:Connection: "
-logger = logging.getLogger('SyslogLogger')
+# Setup Application logger to console
+applogger = logging.getLogger('qradar-connector')
+applogger.setLevel(logging.DEBUG)
+conlogger = logging.StreamHandler()
+conlogger.setLevel(logging.DEBUG)
+applogger.addHandler(conlogger)
 
 # Variables to control WIoTP API invocation
 # 
@@ -44,22 +59,52 @@ authREObj = re.compile(r'(.*): ClientID=\S(.*?)\S, ClientIP=(.*)')
 connREObj = re.compile(r'^Closed\sconnection\sfrom\s(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\.(.*)')
 genrREObj = re.compile(r'(.*)ClientIP=(.*)')
 
+systemIP = '127.0.0.1'
+test_mode = 0
+
+# Signal handler
+def signalHandler(sig, frame):
+    applogger.info("Exit program on SIGINT")
+    sys.exit(0)
+
+#
+# Get local IP address
+def getLocalIP():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(('8.8.8.8', 1))
+        IP = s.getsockname()[0]
+    except:
+        IP = '127.0.0.1'
+    finally:
+        s.close()
+    return IP
+
 #
 # Function to process device log messages and generate syslog events
 #
-def processLogEvent(devType, devId, log, verbose):
+def processLogEvent(clientId, log, verbose):
+    global test_mode
+    global systemIP
+
     # This function parses log event and generate syslog event.
     # Log event from WIoTP is in JSON format. Example of a typical log event:
     # {"timestamp": "2018-02-28T20:02:50.585Z", "message": "Token auth succeeded: ClientID='d:li0f0v:NXPDev:testSub', ClientIP=32.97.110.54"}
 
     # SYSLOG Event format:
-    # <timestamp> <APPNAME>: <level>: <source>: event=<event> state=<state> devType=<devType> devId=<devId> clientID=<clientID> Message=<Raw log message>
+    # <timestamp> <localip> <APPNAME>: devType=<devType> devId=<devId> Message=<Raw log message>
 
     timestamp = log["timestamp"]
     msg = log["message"]
 
-    syslog_header = "%s " % (timestamp)
-    headMsg = syslog_header + APPNAME + "INFO: "
+    if test_mode == 1:
+        cT = time.gmtime()
+        tstamp = time.strftime("%b %d %H:%M:%S", cT)
+        syslog_header = "%s %s " % (tstamp, systemIP)
+    else:
+        syslog_header = "%s %s " % (timestamp, systemIP)
+
+    headMsg = syslog_header + APPNAMECONNECTION
 
     # Parse authentication messages
     mObj = authREObj.match(msg)
@@ -67,50 +112,40 @@ def processLogEvent(devType, devId, log, verbose):
         message = mObj.group(1)
         clientId = mObj.group(2)
         IP = mObj.group(3)
-        event = "Authentication"
-        state = "Succeeded"
+        event = "AuthSucceeded"
         if "failed" in message:
-            state = "Failed"
-            headMsg = syslog_header + APPNAME + "ERROR: "
-        eventMsg = "%s%s: event=%s state=%s devType=%s devId=%s clientID=%s Message=%s" % (headMsg, IP, event, state, devType, devId, clientId, message)
-        if verbose:
-            print( "Event: " + eventMsg)
-        logger.info(eventMsg)
+            event = "AuthFailed"
+        eventMsg = "%s source=%s event=%s clientID=%s Message=%s" % (headMsg, IP, event, clientId, message)
+        applogger.debug(eventMsg)
+        sysLogger.info(eventMsg)
         return
         
     # Parse connection closed messages
     mObj = connREObj.match(msg)
     if mObj:
         message = mObj.group(2)
-        clientId = "NA"
         IP = mObj.group(1)
-        event = "Closed"
-        state = "Normal"
+        event = "ClosedNormal"
         if "by the client" in message:
-            state = "ByClient"
+            state = "ClosedByClient"
         if "not authorized" in message:
-            event = "Operation"
-            state = "Unauthorized"
-            headMsg = syslog_header + APPNAME + "ERROR: "
-        eventMsg = "%s%s: event=%s state=%s devType=%s devId=%s clientID=%s Message=%s" % (headMsg, IP, event, state, devType, devId, clientId, message)
-        if verbose:
-            print( "Event: " + eventMsg)
-        logger.info(eventMsg)
+            event = "OperationUnauthorized"
+        eventMsg = "%s source=%s event=%s clientID=%s Message=%s" % (headMsg, IP, event, clientId, message)
+        applogger.debug(eventMsg)
+        sysLogger.info(eventMsg)
         return
         
     # Process generic log
     # check if ClientIP is specified in message
-    event = "Genric"
-    clientId = "NA"
-    state = "NA"
+    event = "NA"
     IP = "NA"
     mObj = genrREObj.match(msg)
     if mObj:
         IP = mObj.group(2)
-    eventMsg = "%s%s: event=%s state=%s devType=%s devId=%s clientID=%s Message=%s" % (headMsg, IP, event, state, devType, devId, clientId, log)
-    if verbose:
-        print( "Event: " + eventMsg)
-    logger.info(eventMsg)
+
+    eventMsg = "%s source=%s event=%s clientID=%s Message=%s" % (headMsg, IP, event, clientId, msg)
+    applogger.debug(eventMsg)
+    sysLogger.info(eventMsg)
 
 
 #
@@ -118,8 +153,7 @@ def processLogEvent(devType, devId, log, verbose):
 #
 def getDevices(client, device_limit, log_limit, verbose):
 
-    if verbose:
-        print("Get Devices ...")
+    applogger.info("Start a new pool cycle ...")
     _getPageOfDevices(client, device_limit, log_limit, verbose, None )
 
 #
@@ -129,15 +163,17 @@ def _getPageOfDevices(client, device_limit, log_limit, verbose, bookmark):
 
     deviceList = client.api.getDevices(parameters = {"_limit": device_limit, "_bookmark": bookmark, "_sort": "typeId,deviceId"})
     resultArray = deviceList['results']
+
+    applogger.info("Process connection logs of " + str(len(resultArray)) + " devices")
     for device in resultArray:
         if "metadata" not in device:
             device["metadata"] = {}
 
         typeId = device["typeId"]
         deviceId = device["deviceId"]
+        clientId = device["clientId"]
 
-        if verbose:
-            print("DeviceType: " + typeId + " DeviceId: " + deviceId)
+        applogger.debug("ClientID=" + clientId)
 
         try:
             # get logs for the device 
@@ -151,12 +187,11 @@ def _getPageOfDevices(client, device_limit, log_limit, verbose, bookmark):
  
   
             for log in logresults:
-                processLogEvent(typeId, deviceId, log, verbose)
-                if verbose:
-                    print(json.dumps(log))
+                processLogEvent(clientId, log, verbose)
+                applogger.debug(json.dumps(log))
 
         except Exception as e:
-            print(str(e))
+            applogger.error(str(e))
 
 
     # Next page
@@ -172,25 +207,32 @@ def getEventFromAPI(client, device_limit, log_limit, verbose):
         getDevices(client, device_limit, log_limit, verbose)
 
     except ibmiotf.APIException as e:
-        print(e.httpCode)
-        print(str(e))
+        applogger.error(e.httpCode)
+        applogger.error(str(e))
         return
     except Exception as e:
-        print(str(e))
+        applogger.info(str(e))
         return
 
 #
 # Pooling function to perodically invoke REST API to get device logs and data from WIoTP
 #
-def poll_pm(device_limit, log_limit, interval, nloop, verbose, lock): 
-    t = threading.currentThread()
+def getDataAndProcess(configData): 
+    global test_mode
     cycle = 0
     loop = 0
+
+    test_mode = configData['test_mode'];
+    nloop = int(configData['cycles'])
+    device_limit = int(configData['device_fetch_limit'])
+    log_limit = int(configData['log_fetch_limit'])
+    interval = int(configData['log_fetch_interval'])
+    verbose = configData['verbose']
 
     # Set current time in ISO8601 - needed for log fetch API
     curTime = time.gmtime()
     curISOTime = time.strftime("%Y-%m-%dT%H:%M:%S", curTime)
-    print("Current time: " + curISOTime + "\n")
+    applogger.info("Current time: " + curISOTime + "\n")
 
     # Get API client
     config = "application.cfg"
@@ -201,14 +243,12 @@ def poll_pm(device_limit, log_limit, interval, nloop, verbose, lock):
         client.logger.setLevel(logging.INFO)
 
     except Exception as e:
-        print(str(e))
+        applogger.error(str(e))
         return
 
-    while getattr(t, "continue_run", True):
+    while True:
         loop += 1
-        lock.acquire()
-        if verbose:
-            print("App: Lock acquired. Loop [{0}] of [{1}]: test:[{2}]".format(str(loop),str(nloop),str(cycle)))
+        applogger.debug("Get Cycle: Loop [{0}] of [{1}]".format(str(loop),str(nloop)))
     
         # set current time
         curTime = time.gmtime()
@@ -219,80 +259,84 @@ def poll_pm(device_limit, log_limit, interval, nloop, verbose, lock):
         # set last time
         lastISOTime = curISOTime
 
-        lock.release()
-        
         # check for test cycle
         if nloop > 0 and loop == nloop:
-            t.continue_run = False
+            break
 
         time.sleep(int(interval))
 
-    print("STOP Loop \n")
+    applogger.info("STOP Loop \n")
 
 
 # Configure syslog server and spawn thread to get connection logs from WIoTP and generate 
 # syslog events
 def get_wiotp_data():
-    print("Start processing thread")
+    global sysLogger
+    global systemIP
+
+    # Set up signal handler
+    signal.signal(signal.SIGINT, signalHandler)
+
+    applogger.info("Start qradar-connector")
 
     # Read configuration file to read qradar syslog server host IP and Port
     cwd = os.getcwd()
     configpath = cwd + "/application.cfg"
 
-    # Use safe config parser to specify default values
-    default_values = {
-        'qradar-syslog-server': '127.0.0.1', 
-        'qradar-syslog-port': 514,
-        'no-cycles': 0,
-        'device-fetch-limit': 100,
-        'log-fetch-limit': -1,
-        'log-fetch-interval': 15,
-        'verbose': True
-    }
-
-    config = ConfigParser.SafeConfigParser(default_values)
+    # Get configuration data
+    config = ConfigParser.ConfigParser()
     config.read(configpath)
 
     # SYSLOG server address and port
     syslog_server_address = config.get("qradar-syslog-server", "hostip")
     syslog_server_port = config.getint("qradar-syslog-server", "port")
 
-    print("syslog_server_address: " + syslog_server_address )
-    print("syslog_server_port: " + str(syslog_server_port) )
+    applogger.info("syslog_server_address: " + syslog_server_address )
+    applogger.info("syslog_server_port: " + str(syslog_server_port) )
 
     # read parameters used for invoking WIoTP API calls and processing data
+    configData = {}
 
-    # Number of test cycles - default is 0 - loop for ever
-    no_cycles = config.getint("qradar-connector", "no-cycles")
+    # Check for test mode
+    configData['test_mode'] = config.getint("qradar-connector", "test-mode")
+
+    # Set number of cycles - default is 0 (loop for ever)
+    configData['cycles'] = config.getint("qradar-connector", "cycles")
 
     # Chunk limit for getting device data
-    device_fetch_limit = config.getint("qradar-connector", "device-fetch-limit")
+    configData['device_fetch_limit'] = config.getint("qradar-connector", "device-fetch-limit")
 
     # Log fetch strategy
     # 0 (use time period), 1 (use limit), -1 (get all)
-    log_fetch_limit = config.getint("qradar-connector", "log-fetch-limit")
+    configData['log_fetch_limit'] = config.getint("qradar-connector", "log-fetch-limit")
 
     # Log fetch pooling interval in seconds
-    log_fetch_interval = config.getint("qradar-connector", "log-fetch-interval")
+    configData['log_fetch_interval'] = config.getint("qradar-connector", "log-fetch-interval")
 
     # verbose mode - default True
-    verbose = config.getboolean("qradar-connector", "verbose")
-    
-    print("device_fetch_limit: " + str(device_fetch_limit))
-    print("log_fetch_limit: " + str(log_fetch_limit))
-    print("log_fetch_interval: " + str(log_fetch_interval))
-    print("no_cycles: " + str(no_cycles))
-    print("verbose: " + str(verbose))
-
-    logger.setLevel(logging.INFO)
-    syslog_handler = logging.handlers.SysLogHandler( address=(syslog_server_address, syslog_server_port), facility=logging.handlers.SysLogHandler.LOG_LOCAL1)
-    logger.addHandler(syslog_handler)
-    lock = threading.Lock()
-    thread_runner = Thread(target=poll_pm, args=(device_fetch_limit, log_fetch_limit, log_fetch_interval, no_cycles, verbose, lock))
-    thread_runner.daemon = True
-    thread_runner.continue_run = True
-    thread_runner.start()
-    thread_runner.join()
+    configData['verbose'] = config.getint("qradar-connector", "verbose")
    
+    # Log Level - default INFO
+    configData['level'] = config.get("qradar-connector", "level")
+
+    systemIP = getLocalIP()
+
+    # Set log level
+    applogger.removeHandler(conlogger)
+    conlogger.setLevel(configData['level'])
+    applogger.addHandler(conlogger)
+
+    applogger.debug("Configuration Data:")
+    applogger.debug(json.dumps(configData, indent=4))
+
+    # Set Syslog handler
+    sysLogger.setLevel(logging.INFO)
+    syslog_handler = logging.handlers.SysLogHandler( address=(syslog_server_address, syslog_server_port), facility=logging.handlers.SysLogHandler.LOG_LOCAL1)
+    sysLogger.addHandler(syslog_handler)
+
+    getDataAndProcess(configData)
+
+ 
 if __name__ == '__main__':
-    get_wiotp_data() 
+    get_wiotp_data()
+
