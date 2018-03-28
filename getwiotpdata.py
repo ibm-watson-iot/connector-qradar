@@ -59,8 +59,12 @@ authREObj = re.compile(r'(.*): ClientID=\S(.*?)\S, ClientIP=(.*)')
 connREObj = re.compile(r'^Closed\sconnection\sfrom\s(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\.(.*)')
 genrREObj = re.compile(r'(.*)ClientIP=(.*)')
 
+# compile regex for log file line
+logfREObj = re.compile(r'^(.*?) LOGMSG=(.*$)')
+
 systemIP = '127.0.0.1'
 test_mode = 0
+fetchInit = 0
 
 # Signal handler
 def signalHandler(sig, frame):
@@ -83,7 +87,7 @@ def getLocalIP():
 #
 # Function to process device log messages and generate syslog events
 #
-def processLogEvent(clientId, log, verbose):
+def processLogEvent(clientId, log):
     global test_mode
     global systemIP
 
@@ -151,15 +155,15 @@ def processLogEvent(clientId, log, verbose):
 #
 # Get all device data from Watson IoT Platform
 #
-def getDevices(client, device_limit, log_limit, verbose):
+def getDevices(client, device_limit, log_limit):
 
     applogger.info("Start a new pool cycle ...")
-    _getPageOfDevices(client, device_limit, log_limit, verbose, None )
+    _getPageOfDevices(client, device_limit, log_limit, None )
 
 #
 # Get device data in chunks
 # 
-def _getPageOfDevices(client, device_limit, log_limit, verbose, bookmark):
+def _getPageOfDevices(client, device_limit, log_limit, bookmark):
 
     deviceList = client.api.getDevices(parameters = {"_limit": device_limit, "_bookmark": bookmark, "_sort": "typeId,deviceId"})
     resultArray = deviceList['results']
@@ -187,8 +191,8 @@ def _getPageOfDevices(client, device_limit, log_limit, verbose, bookmark):
  
   
             for log in logresults:
-                processLogEvent(clientId, log, verbose)
-                applogger.debug(json.dumps(log))
+                processLogEvent(clientId, log)
+                applogger.debug(clientId + " LOGMSG=" + json.dumps(log))
 
         except Exception as e:
             applogger.error(str(e))
@@ -197,14 +201,14 @@ def _getPageOfDevices(client, device_limit, log_limit, verbose, bookmark):
     # Next page
     if "bookmark" in deviceList:
         bookmark = deviceList["bookmark"]
-        _getPageOfDevices(client, device_limit, log_limit, verbose, bookmark)
+        _getPageOfDevices(client, device_limit, log_limit, bookmark)
 
 #
 # Get device data and log events
 #
-def getEventFromAPI(client, device_limit, log_limit, verbose):
+def getEventFromAPI(client, device_limit, log_limit):
     try:
-        getDevices(client, device_limit, log_limit, verbose)
+        getDevices(client, device_limit, log_limit)
 
     except ibmiotf.APIException as e:
         applogger.error(e.httpCode)
@@ -214,20 +218,40 @@ def getEventFromAPI(client, device_limit, log_limit, verbose):
         applogger.info(str(e))
         return
 
+
+#
+# Get events from log file
+# Log file should be in the following format:
+# <ClientID> LOGMSG=<logMessage>
+#
+def getEventsFromLogFile(logf):
+    # read log file and process log event
+    with open(logf, "r") as f:
+        for line in f:
+            applogger.debug(line)
+            lObj = logfREObj.match(line)
+            if lObj:
+                clientId = lObj.group(1)
+                log = lObj.group(2)
+                jslog = json.loads(log)
+                processLogEvent(clientId, jslog)
+
+
 #
 # Pooling function to perodically invoke REST API to get device logs and data from WIoTP
 #
 def getDataAndProcess(configData): 
     global test_mode
+    global fetchInit
     cycle = 0
     loop = 0
 
-    test_mode = configData['test_mode'];
+    test_mode = configData['test_mode']
     nloop = int(configData['cycles'])
     device_limit = int(configData['device_fetch_limit'])
     log_limit = int(configData['log_fetch_limit'])
     interval = int(configData['log_fetch_interval'])
-    verbose = configData['verbose']
+    test_log = configData['test_log']
 
     # Set current time in ISO8601 - needed for log fetch API
     curTime = time.gmtime()
@@ -254,7 +278,17 @@ def getDataAndProcess(configData):
         curTime = time.gmtime()
         curISOTime = time.strftime("%Y-%m-%dT%H:%M:%S", curTime)
 
-        getEventFromAPI(client,device_limit,log_limit,verbose)
+        if len(test_log) > 0:
+            # Get log from log file
+            getEventsFromLogFile(test_log)
+            break
+        else:
+            if fetchInit == 0 and log_limit == 0:
+                # get all old logs when connecting for the first time
+                getEventFromAPI(client,device_limit,-1)
+                fetchInit = 1
+            else:
+                getEventFromAPI(client,device_limit,log_limit)
 
         # set last time
         lastISOTime = curISOTime
@@ -299,6 +333,7 @@ def get_wiotp_data():
 
     # Check for test mode
     configData['test_mode'] = config.getint("qradar-connector", "test-mode")
+    configData['test_log'] = config.get("qradar-connector", "test-log-file")
 
     # Set number of cycles - default is 0 (loop for ever)
     configData['cycles'] = config.getint("qradar-connector", "cycles")
@@ -313,9 +348,6 @@ def get_wiotp_data():
     # Log fetch pooling interval in seconds
     configData['log_fetch_interval'] = config.getint("qradar-connector", "log-fetch-interval")
 
-    # verbose mode - default True
-    configData['verbose'] = config.getint("qradar-connector", "verbose")
-   
     # Log Level - default INFO
     configData['level'] = config.get("qradar-connector", "level")
 
