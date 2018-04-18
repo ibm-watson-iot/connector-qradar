@@ -2,7 +2,7 @@ applications:
 - path: .
   memory: 256M
   instances: 1
-  name: qradar-connector
-  host: qradar-connector
+  name: <your-wiotp-org-id>-qradar-connector
+  host: <your-wiotp-org-id>-qradar-connector
   disk_quota: 1024M
 
