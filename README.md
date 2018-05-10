@@ -134,7 +134,7 @@ IBM QRadar SIEM configuration section below).
 You can deploy this application as Cloud Foundary application in IBM Cloud.
 Before you begin, download and install the IBM Cloud command line interface. 
 
-- [IBM Cloud CLI] (https://clis.ng.bluemix.net/)
+- [IBM Cloud CLI](https://clis.ng.bluemix.net/)
 
 Take note of the manifest.yml file. When deploying your app back to IBM Cloud, this file is used to 
 determine your application’s URL, memory allocation, number of instances, and other crucial 
