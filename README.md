@@ -37,20 +37,20 @@ This application performs the following tasks:
 - Normalizes the data needed for QRadar integration
 - Generates and sends syslog events to QRadar platform
 
+This application can be deployed in IBM Cloud or locally on any system that can access Watson IoT Platform service
+and IBM QRadar SIEM platform. 
+
 ### Dependencies
 
 - [Python 3.6](https://www.python.org/downloads/release/python-360/)
 - [Python 2.7](https://www.python.org/downloads/release/python-2713/)
 - [IBM Watson IoT Platform Python client library](https://github.com/ibm-watson-iot/iot-python)
+- IBM Watson IoT Platform Service in IBM Cloud
+- IBM QRadar SIEM Platform
 
 Note: Support for MQTT with TLS requires at least Python v2.7.9 or v3.4, and openssl v1.0.1
 
-### Deploy in IBM Cloud
-
-You can deploy this application as Cloud Foundary application in IBM Cloud.
-Before you begin, download and install the IBM Cloud command line interface. 
-
-- [IBM Cloud CLI] (https://clis.ng.bluemix.net/)
+### Deploy the application
 
 Clone this repository locally:
 
@@ -64,8 +64,77 @@ git clone https://github.com/ibm-watson-iot/qradar-connector
 Change to the directory where your code is located.
 
 ```
-cd radar-wiotp-collector
+cd qradar-connector
 ```
+
+Make changes to your application.cfg 
+
+```
+[application]
+org = <your Watson IoT Platform organization id>
+auth-method = token
+auth-key = <API Key>
+auth-token = <API Token>
+
+[qradar-syslog-server]
+hostip = <Host IP of QRadar SYSLOG server. Default 127.0.0.1>
+port = <Port of QRadar SYSLOG server. Default 514>
+
+[qradar-connector]
+device-fetch-limit = <Number of devices processed in a batch. Default 100>
+log-fetch-limit = <Connection log fetch stretagy. 0 (use time period), number (use limit), -1 (get all)>
+log-fetch-interval = <Log fetch pooling interval in seconds. Default 10>
+level = <Application log level - default is INFO>
+replay-log-file = <Set this to 1 to replay a sample log fie>
+log-file-name = <Name of the sample log file to replay if replay-log-file = 1>
+cycles = <Number of test cycles>
+```
+Example application.cfg
+```
+[application]
+org = ui1f0v
+auth-method = token
+auth-key = a-ui1f0v-saxzblldvv
+auth-token = tD_yyAXN7tsGw5T7dj
+
+[qradar-syslog-server]
+hostip = 10.78.169.83
+port = 514
+
+[qradar-connector]
+device-fetch-limit = 100
+log-fetch-limit = -1
+log-fetch-interval = 10
+level = INFO
+replay-log-file = 0
+log-file-name = samplelogfile.log
+cycles = 10
+```
+
+#### Run application locally
+
+To run the application on a system that has access to your Watson IoT Platform service and 
+IBM QRadar SIEM platform, change to the directory where application code is located.
+
+```
+cd qradar-connector
+python server.py
+```
+
+This will start a "QRdar Connector Application" on the system.  You can start the application using 
+a Web Browser. Before starting the application, complete IBM QRadar SIEM configuration (refer to 
+IBM QRadar SIEM configuration section below).
+
+* Connect to http://IP_Address_of_the_system_where_application_is_installed:8000
+* Click on "Start Application" button
+
+ 
+#### Deploy and run application in IBM Cloud
+
+You can deploy this application as Cloud Foundary application in IBM Cloud.
+Before you begin, download and install the IBM Cloud command line interface. 
+
+- [IBM Cloud CLI] (https://clis.ng.bluemix.net/)
 
 Take note of the manifest.yml file. When deploying your app back to IBM Cloud, this file is used to 
 determine your application’s URL, memory allocation, number of instances, and other crucial 
@@ -93,48 +162,6 @@ applications:
   name: ui1f0v-qradar-connector
   host: ui1f0v-qradar-connector
   disk_quota: 1024M
-```
-
-
-Make changes to your application.cfg 
-
-```
-[application]
-org = <your Watson IoT Platform organization id>
-auth-method = token
-auth-key = <API Key>
-auth-token = <API Token>
-
-[qradar-syslog-server]
-hostip = <Host IP of QRadar SYSLOG server. Default 127.0.0.1>
-port = <Port of QRadar SYSLOG server. Default 514>
-
-[qradar-connector]
-device-fetch-limit = <Number of devices processed in a batch. Default 100>
-log-fetch-limit = <Connection log fetch stretagy. 0 (use time period), number (use limit), -1 (get all)>
-log-fetch-interval = <Log fetch pooling interval in seconds. Default 10>
-verbose = 0
-```
-
-
-Example application.cfg
-```
-[application]
-org = ui1f0v
-auth-method = token
-auth-key = a-ui1f0v-saxzblldvv
-auth-token = tD_yyAXN7tsGw5T7dj
-
-[qradar-syslog-server]
-hostip = 10.78.169.83
-port = 514
-
-[qradar-connector]
-device-fetch-limit = 100
-log-fetch-limit = -1
-log-fetch-interval = 10
-verbose = 0
-
 ```
 
 Connect and log in to IBM Cloud.
@@ -166,6 +193,8 @@ bluemix app push ui1f0v-qradar-connector
 Access your app by browsing to https://<your Watson IoT Platform organization id>-qradar-connector.mybluemix.net.
 
 For example: https://ui1f0v-qradar-connector.mybluemix.net
+
+Before starting the application, complete IBM QRadar SIEM configuration (refer to the section below).
 
 
 ## IBM QRadar SIEM configuration
