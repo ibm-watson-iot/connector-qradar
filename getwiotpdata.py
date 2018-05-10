@@ -65,9 +65,15 @@ logfREObj = re.compile(r'^(.*?) LOGMSG=(.*$)')
 systemIP = '127.0.0.1'
 test_mode = 0
 fetchInit = 0
+configData = {}
+startLoop = 0
+stopLoop = 0
+threadStopped = 0
 
 # Signal handler
 def signalHandler(sig, frame):
+    global stopLoop
+    stopLoop = 1
     applogger.info("Exit program on SIGINT")
     sys.exit(0)
 
@@ -240,9 +246,14 @@ def getEventsFromLogFile(logf):
 #
 # Pooling function to perodically invoke REST API to get device logs and data from WIoTP
 #
-def getDataAndProcess(configData): 
+def getDataAndProcess(): 
     global test_mode
     global fetchInit
+    global configData
+    global startLoop
+    global stopLoop
+    global threadStopped
+
     cycle = 0
     loop = 0
 
@@ -271,35 +282,61 @@ def getDataAndProcess(configData):
         return
 
     while True:
-        loop += 1
-        applogger.debug("Get Cycle: Loop [{0}] of [{1}]".format(str(loop),str(nloop)))
+        if startLoop == 1:
+            loop += 1
+            applogger.debug("Get Cycle: Loop [{0}] of [{1}]".format(str(loop),str(nloop)))
+        
+            # set current time
+            curTime = time.gmtime()
+            curISOTime = time.strftime("%Y-%m-%dT%H:%M:%S", curTime)
     
-        # set current time
-        curTime = time.gmtime()
-        curISOTime = time.strftime("%Y-%m-%dT%H:%M:%S", curTime)
-
-        if len(test_log) > 0:
-            # Get log from log file
-            getEventsFromLogFile(test_log)
-            break
-        else:
-            if fetchInit == 0 and log_limit == 0:
-                # get all old logs when connecting for the first time
-                getEventFromAPI(client,device_limit,-1)
-                fetchInit = 1
+            if len(test_log) > 0 and test_mode == 1:
+                # Get log from log file
+                getEventsFromLogFile(test_log)
             else:
-                getEventFromAPI(client,device_limit,log_limit)
-
-        # set last time
-        lastISOTime = curISOTime
-
-        # check for test cycle
-        if nloop > 0 and loop == nloop:
-            break
+                if fetchInit == 0 and log_limit == 0:
+                    # get all old logs when connecting for the first time
+                    getEventFromAPI(client,device_limit,-1)
+                    fetchInit = 1
+                else:
+                    getEventFromAPI(client,device_limit,log_limit)
+    
+            # set last time
+            lastISOTime = curISOTime
+    
+            # check for test cycle
+            if nloop > 0 and loop == nloop:
+                break
 
         time.sleep(int(interval))
+        if stopLoop == 1:
+            break
 
-    applogger.info("STOP Loop \n")
+    applogger.info("STOP and EXIT application \n")
+    threadStopped = 1
+    sys.exit(0)
+
+
+#
+# Set startLoop variable so that thread can start processing data
+#
+def start_thread():
+    global startLoop
+    global stopLoop
+    print("Starting Application")
+    stopLoop = 0
+    startLoop = 1
+
+
+#
+# Set startLoop variable so that thread can start processing data
+#
+def stop_thread():
+    global startLoop
+    global stopLoop
+    print("Stopping Application")
+    stopLoop = 1
+    startLoop = 0
 
 
 # Configure syslog server and spawn thread to get connection logs from WIoTP and generate 
@@ -307,6 +344,7 @@ def getDataAndProcess(configData):
 def get_wiotp_data():
     global sysLogger
     global systemIP
+    global configData
 
     # Set up signal handler
     signal.signal(signal.SIGINT, signalHandler)
@@ -332,8 +370,8 @@ def get_wiotp_data():
     configData = {}
 
     # Check for test mode
-    configData['test_mode'] = config.getint("qradar-connector", "test-mode")
-    configData['test_log'] = config.get("qradar-connector", "test-log-file")
+    configData['test_mode'] = config.get("qradar-connector", "replay-log-file")
+    configData['test_log'] = config.get("qradar-connector", "log-file-name")
 
     # Set number of cycles - default is 0 (loop for ever)
     configData['cycles'] = config.getint("qradar-connector", "cycles")
@@ -366,7 +404,9 @@ def get_wiotp_data():
     syslog_handler = logging.handlers.SysLogHandler( address=(syslog_server_address, syslog_server_port), facility=logging.handlers.SysLogHandler.LOG_LOCAL1)
     sysLogger.addHandler(syslog_handler)
 
-    getDataAndProcess(configData)
+    # Start thread to process data    
+    thread = Thread(target = getDataAndProcess)
+    thread.start()
 
  
 if __name__ == '__main__':

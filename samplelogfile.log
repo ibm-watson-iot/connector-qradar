@@ -18,72 +18,72 @@ g:dudiz0:NXP-A71CH-G:70028004006194989053 LOGMSG={"timestamp": "2018-03-27T16:28
 g:dudiz0:NXP-A71CH-G:70028004006194989053 LOGMSG={"timestamp": "2018-03-27T16:28:32.594Z", "message": "Token auth succeeded: ClientID='g:dudiz0:NXP-A71CH-G:70028004006194989053', ClientIP=169.50.112.179"}
 g:dudiz0:NXP-A71CH-G:70028004006194989053 LOGMSG={"timestamp": "2018-03-27T16:28:30.558Z", "message": "Closed connection from 169.50.112.179. The connection has completed normally."}
 g:dudiz0:NXP-A71CH-G:70028004006194989053 LOGMSG={"timestamp": "2018-03-27T16:27:50.140Z", "message": "Token auth succeeded: ClientID='g:dudiz0:NXP-A71CH-G:70028004006194989053', ClientIP=169.50.112.179"}
-d:dudiz0:WS:Ahuza LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Ahuza LOGMSG={"timestamp": "2018-03-28T14:16:14.763Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Ahuza', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Ahuza LOGMSG={"timestamp": "2018-03-28T13:54:21.958Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Ahuza LOGMSG={"timestamp": "2018-03-28T13:52:53.419Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Ahuza', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Daliat-el-Carmel LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Daliat-el-Carmel LOGMSG={"timestamp": "2018-03-28T14:16:14.760Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Daliat-el-Carmel', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Daliat-el-Carmel LOGMSG={"timestamp": "2018-03-28T13:54:21.957Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Daliat-el-Carmel LOGMSG={"timestamp": "2018-03-28T13:52:53.412Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Daliat-el-Carmel', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Einstein LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Einstein LOGMSG={"timestamp": "2018-03-28T14:16:14.760Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Einstein', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Einstein LOGMSG={"timestamp": "2018-03-28T13:54:21.958Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Einstein LOGMSG={"timestamp": "2018-03-28T13:52:53.441Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Einstein', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Igud LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Igud LOGMSG={"timestamp": "2018-03-28T14:16:14.784Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Igud', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Igud LOGMSG={"timestamp": "2018-03-28T13:54:21.957Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Igud LOGMSG={"timestamp": "2018-03-28T13:52:53.429Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Igud', ClientIP=169.50.91.68"}
+d:dudiz0:WS:Ahuza LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.64. The connection has completed normally"}
+d:dudiz0:WS:Ahuza LOGMSG={"timestamp": "2018-03-28T14:16:14.763Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Ahuza', ClientIP=169.50.91.64"}
+d:dudiz0:WS:Ahuza LOGMSG={"timestamp": "2018-03-28T13:54:21.958Z", "message": "Closed connection from 169.50.91.64. The connection has completed normally"}
+d:dudiz0:WS:Ahuza LOGMSG={"timestamp": "2018-03-28T13:52:53.419Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Ahuza', ClientIP=169.50.91.64"}
+d:dudiz0:WS:Daliat-el-Carmel LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.65. The connection has completed normally"}
+d:dudiz0:WS:Daliat-el-Carmel LOGMSG={"timestamp": "2018-03-28T14:16:14.760Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Daliat-el-Carmel', ClientIP=169.50.91.65"}
+d:dudiz0:WS:Daliat-el-Carmel LOGMSG={"timestamp": "2018-03-28T13:54:21.957Z", "message": "Closed connection from 169.50.91.65. The connection has completed normally"}
+d:dudiz0:WS:Daliat-el-Carmel LOGMSG={"timestamp": "2018-03-28T13:52:53.412Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Daliat-el-Carmel', ClientIP=169.50.91.65"}
+d:dudiz0:WS:Einstein LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.66. The connection has completed normally"}
+d:dudiz0:WS:Einstein LOGMSG={"timestamp": "2018-03-28T14:16:14.760Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Einstein', ClientIP=169.50.91.66"}
+d:dudiz0:WS:Einstein LOGMSG={"timestamp": "2018-03-28T13:54:21.958Z", "message": "Closed connection from 169.50.91.66. The connection has completed normally"}
+d:dudiz0:WS:Einstein LOGMSG={"timestamp": "2018-03-28T13:52:53.441Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Einstein', ClientIP=169.50.91.66"}
+d:dudiz0:WS:Igud LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.67. The connection has completed normally"}
+d:dudiz0:WS:Igud LOGMSG={"timestamp": "2018-03-28T14:16:14.784Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Igud', ClientIP=169.50.91.67"}
+d:dudiz0:WS:Igud LOGMSG={"timestamp": "2018-03-28T13:54:21.957Z", "message": "Closed connection from 169.50.91.67. The connection has completed normally"}
+d:dudiz0:WS:Igud LOGMSG={"timestamp": "2018-03-28T13:52:53.429Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Igud', ClientIP=169.50.91.67"}
 d:dudiz0:WS:Kfar-Hasidim LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
 d:dudiz0:WS:Kfar-Hasidim LOGMSG={"timestamp": "2018-03-28T14:16:14.784Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kfar-Hasidim', ClientIP=169.50.91.68"}
 d:dudiz0:WS:Kfar-Hasidim LOGMSG={"timestamp": "2018-03-28T13:54:21.957Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
 d:dudiz0:WS:Kfar-Hasidim LOGMSG={"timestamp": "2018-03-28T13:52:53.429Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kfar-Hasidim', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Kiryat-Ata LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Kiryat-Ata LOGMSG={"timestamp": "2018-03-28T14:16:14.729Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Ata', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Kiryat-Ata LOGMSG={"timestamp": "2018-03-28T13:54:21.957Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Kiryat-Ata LOGMSG={"timestamp": "2018-03-28T13:52:53.413Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Ata', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Kiryat-Bialik LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Kiryat-Bialik LOGMSG={"timestamp": "2018-03-28T14:16:14.767Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Bialik', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Kiryat-Bialik LOGMSG={"timestamp": "2018-03-28T13:54:21.958Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Kiryat-Bialik LOGMSG={"timestamp": "2018-03-28T13:52:53.505Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Bialik', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Kiryat-Binyamin LOGMSG={"timestamp": "2018-03-28T14:17:41.771Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Kiryat-Binyamin LOGMSG={"timestamp": "2018-03-28T14:16:14.731Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Binyamin', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Kiryat-Binyamin LOGMSG={"timestamp": "2018-03-28T13:54:21.957Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Kiryat-Binyamin LOGMSG={"timestamp": "2018-03-28T13:52:53.410Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Binyamin', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Kiryat-Hayim-Regavim LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Kiryat-Hayim-Regavim LOGMSG={"timestamp": "2018-03-28T14:16:14.773Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Hayim-Regavim', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Kiryat-Hayim-Regavim LOGMSG={"timestamp": "2018-03-28T13:54:21.957Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Kiryat-Hayim-Regavim LOGMSG={"timestamp": "2018-03-28T13:52:53.417Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Hayim-Regavim', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Kiryat-Motzkin LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Kiryat-Motzkin LOGMSG={"timestamp": "2018-03-28T14:16:14.755Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Motzkin', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Kiryat-Motzkin LOGMSG={"timestamp": "2018-03-28T13:54:21.958Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Kiryat-Motzkin LOGMSG={"timestamp": "2018-03-28T13:52:53.415Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Motzkin', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Kiryat-Tivon LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Kiryat-Tivon LOGMSG={"timestamp": "2018-03-28T14:16:14.738Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Tivon', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Kiryat-Tivon LOGMSG={"timestamp": "2018-03-28T13:54:21.957Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Kiryat-Tivon LOGMSG={"timestamp": "2018-03-28T13:52:53.411Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Tivon', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Kiryat-Yam LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Kiryat-Yam LOGMSG={"timestamp": "2018-03-28T14:16:14.763Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Yam', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Kiryat-Yam LOGMSG={"timestamp": "2018-03-28T13:54:21.958Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Kiryat-Yam LOGMSG={"timestamp": "2018-03-28T13:52:53.429Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Yam', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Nesher LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Nesher LOGMSG={"timestamp": "2018-03-28T14:16:14.758Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Nesher', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Nesher LOGMSG={"timestamp": "2018-03-28T13:54:21.958Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Nesher LOGMSG={"timestamp": "2018-03-28T13:52:53.427Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Nesher', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Neve-Shaanan LOGMSG={"timestamp": "2018-03-28T14:17:41.771Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Neve-Shaanan LOGMSG={"timestamp": "2018-03-28T14:16:14.733Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Neve-Shaanan', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Neve-Shaanan LOGMSG={"timestamp": "2018-03-28T13:54:21.957Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Neve-Shaanan LOGMSG={"timestamp": "2018-03-28T13:52:53.412Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Neve-Shaanan', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Old-Market LOGMSG={"timestamp": "2018-03-28T14:17:41.771Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Old-Market LOGMSG={"timestamp": "2018-03-28T14:16:14.729Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Old-Market', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Old-Market LOGMSG={"timestamp": "2018-03-28T13:54:21.957Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Old-Market LOGMSG={"timestamp": "2018-03-28T13:52:53.409Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Old-Market', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Shprintsak LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Shprintsak LOGMSG={"timestamp": "2018-03-28T14:16:14.759Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Shprintsak', ClientIP=169.50.91.68"}
-d:dudiz0:WS:Shprintsak LOGMSG={"timestamp": "2018-03-28T13:54:21.958Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WS:Shprintsak LOGMSG={"timestamp": "2018-03-28T13:52:53.426Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Shprintsak', ClientIP=169.50.91.68"}
-d:dudiz0:WSV2:Rekhasim LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WSV2:Rekhasim LOGMSG={"timestamp": "2018-03-28T14:16:14.758Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WSV2:Rekhasim', ClientIP=169.50.91.68"}
-d:dudiz0:WSV2:Rekhasim LOGMSG={"timestamp": "2018-03-28T13:54:21.957Z", "message": "Closed connection from 169.50.91.68. The connection has completed normally"}
-d:dudiz0:WSV2:Rekhasim LOGMSG={"timestamp": "2018-03-28T13:52:53.434Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WSV2:Rekhasim', ClientIP=169.50.91.68"}
+d:dudiz0:WS:Kiryat-Ata LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.69. The connection has completed normally"}
+d:dudiz0:WS:Kiryat-Ata LOGMSG={"timestamp": "2018-03-28T14:16:14.729Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Ata', ClientIP=169.50.91.69"}
+d:dudiz0:WS:Kiryat-Ata LOGMSG={"timestamp": "2018-03-28T13:54:21.957Z", "message": "Closed connection from 169.50.91.69. The connection has completed normally"}
+d:dudiz0:WS:Kiryat-Ata LOGMSG={"timestamp": "2018-03-28T13:52:53.413Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Ata', ClientIP=169.50.91.69"}
+d:dudiz0:WS:Kiryat-Bialik LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.70. The connection has completed normally"}
+d:dudiz0:WS:Kiryat-Bialik LOGMSG={"timestamp": "2018-03-28T14:16:14.767Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Bialik', ClientIP=169.50.91.70"}
+d:dudiz0:WS:Kiryat-Bialik LOGMSG={"timestamp": "2018-03-28T13:54:21.958Z", "message": "Closed connection from 169.50.91.70. The connection has completed normally"}
+d:dudiz0:WS:Kiryat-Bialik LOGMSG={"timestamp": "2018-03-28T13:52:53.505Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Bialik', ClientIP=169.50.91.70"}
+d:dudiz0:WS:Kiryat-Binyamin LOGMSG={"timestamp": "2018-03-28T14:17:41.771Z", "message": "Closed connection from 169.50.91.71. The connection has completed normally"}
+d:dudiz0:WS:Kiryat-Binyamin LOGMSG={"timestamp": "2018-03-28T14:16:14.731Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Binyamin', ClientIP=169.50.91.71"}
+d:dudiz0:WS:Kiryat-Binyamin LOGMSG={"timestamp": "2018-03-28T13:54:21.957Z", "message": "Closed connection from 169.50.91.71. The connection has completed normally"}
+d:dudiz0:WS:Kiryat-Binyamin LOGMSG={"timestamp": "2018-03-28T13:52:53.410Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Binyamin', ClientIP=169.50.91.71"}
+d:dudiz0:WS:Kiryat-Hayim-Regavim LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.72. The connection has completed normally"}
+d:dudiz0:WS:Kiryat-Hayim-Regavim LOGMSG={"timestamp": "2018-03-28T14:16:14.773Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Hayim-Regavim', ClientIP=169.50.91.72"}
+d:dudiz0:WS:Kiryat-Hayim-Regavim LOGMSG={"timestamp": "2018-03-28T13:54:21.957Z", "message": "Closed connection from 169.50.91.72. The connection has completed normally"}
+d:dudiz0:WS:Kiryat-Hayim-Regavim LOGMSG={"timestamp": "2018-03-28T13:52:53.417Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Hayim-Regavim', ClientIP=169.50.91.72"}
+d:dudiz0:WS:Kiryat-Motzkin LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.73. The connection has completed normally"}
+d:dudiz0:WS:Kiryat-Motzkin LOGMSG={"timestamp": "2018-03-28T14:16:14.755Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Motzkin', ClientIP=169.50.91.73"}
+d:dudiz0:WS:Kiryat-Motzkin LOGMSG={"timestamp": "2018-03-28T13:54:21.958Z", "message": "Closed connection from 169.50.91.73. The connection has completed normally"}
+d:dudiz0:WS:Kiryat-Motzkin LOGMSG={"timestamp": "2018-03-28T13:52:53.415Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Motzkin', ClientIP=169.50.91.73"}
+d:dudiz0:WS:Kiryat-Tivon LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.74. The connection has completed normally"}
+d:dudiz0:WS:Kiryat-Tivon LOGMSG={"timestamp": "2018-03-28T14:16:14.738Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Tivon', ClientIP=169.50.91.74"}
+d:dudiz0:WS:Kiryat-Tivon LOGMSG={"timestamp": "2018-03-28T13:54:21.957Z", "message": "Closed connection from 169.50.91.74. The connection has completed normally"}
+d:dudiz0:WS:Kiryat-Tivon LOGMSG={"timestamp": "2018-03-28T13:52:53.411Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Tivon', ClientIP=169.50.91.74"}
+d:dudiz0:WS:Kiryat-Yam LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.75. The connection has completed normally"}
+d:dudiz0:WS:Kiryat-Yam LOGMSG={"timestamp": "2018-03-28T14:16:14.763Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Yam', ClientIP=169.50.91.75"}
+d:dudiz0:WS:Kiryat-Yam LOGMSG={"timestamp": "2018-03-28T13:54:21.958Z", "message": "Closed connection from 169.50.91.75. The connection has completed normally"}
+d:dudiz0:WS:Kiryat-Yam LOGMSG={"timestamp": "2018-03-28T13:52:53.429Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Kiryat-Yam', ClientIP=169.50.91.75"}
+d:dudiz0:WS:Nesher LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.76. The connection has completed normally"}
+d:dudiz0:WS:Nesher LOGMSG={"timestamp": "2018-03-28T14:16:14.758Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Nesher', ClientIP=169.50.91.76"}
+d:dudiz0:WS:Nesher LOGMSG={"timestamp": "2018-03-28T13:54:21.958Z", "message": "Closed connection from 169.50.91.76. The connection has completed normally"}
+d:dudiz0:WS:Nesher LOGMSG={"timestamp": "2018-03-28T13:52:53.427Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Nesher', ClientIP=169.50.91.76"}
+d:dudiz0:WS:Neve-Shaanan LOGMSG={"timestamp": "2018-03-28T14:17:41.771Z", "message": "Closed connection from 169.50.91.78. The connection has completed normally"}
+d:dudiz0:WS:Neve-Shaanan LOGMSG={"timestamp": "2018-03-28T14:16:14.733Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Neve-Shaanan', ClientIP=169.50.91.78"}
+d:dudiz0:WS:Neve-Shaanan LOGMSG={"timestamp": "2018-03-28T13:54:21.957Z", "message": "Closed connection from 169.50.91.78. The connection has completed normally"}
+d:dudiz0:WS:Neve-Shaanan LOGMSG={"timestamp": "2018-03-28T13:52:53.412Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Neve-Shaanan', ClientIP=169.50.91.78"}
+d:dudiz0:WS:Old-Market LOGMSG={"timestamp": "2018-03-28T14:17:41.771Z", "message": "Closed connection from 169.50.91.77. The connection has completed normally"}
+d:dudiz0:WS:Old-Market LOGMSG={"timestamp": "2018-03-28T14:16:14.729Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Old-Market', ClientIP=169.50.91.77"}
+d:dudiz0:WS:Old-Market LOGMSG={"timestamp": "2018-03-28T13:54:21.957Z", "message": "Closed connection from 169.50.91.77. The connection has completed normally"}
+d:dudiz0:WS:Old-Market LOGMSG={"timestamp": "2018-03-28T13:52:53.409Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Old-Market', ClientIP=169.50.91.77"}
+d:dudiz0:WS:Shprintsak LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.79. The connection has completed normally"}
+d:dudiz0:WS:Shprintsak LOGMSG={"timestamp": "2018-03-28T14:16:14.759Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Shprintsak', ClientIP=169.50.91.79"}
+d:dudiz0:WS:Shprintsak LOGMSG={"timestamp": "2018-03-28T13:54:21.958Z", "message": "Closed connection from 169.50.91.79. The connection has completed normally"}
+d:dudiz0:WS:Shprintsak LOGMSG={"timestamp": "2018-03-28T13:52:53.426Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WS:Shprintsak', ClientIP=169.50.91.79"}
+d:dudiz0:WSV2:Rekhasim LOGMSG={"timestamp": "2018-03-28T14:17:41.772Z", "message": "Closed connection from 169.50.91.80. The connection has completed normally"}
+d:dudiz0:WSV2:Rekhasim LOGMSG={"timestamp": "2018-03-28T14:16:14.758Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WSV2:Rekhasim', ClientIP=169.50.91.80"}
+d:dudiz0:WSV2:Rekhasim LOGMSG={"timestamp": "2018-03-28T13:54:21.957Z", "message": "Closed connection from 169.50.91.80. The connection has completed normally"}
+d:dudiz0:WSV2:Rekhasim LOGMSG={"timestamp": "2018-03-28T13:52:53.434Z", "message": "Token auth succeeded: ClientID='d:dudiz0:WSV2:Rekhasim', ClientIP=169.50.91.80"}
 
