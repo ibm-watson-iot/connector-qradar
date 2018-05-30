@@ -211,7 +211,7 @@ Use the following steps to configure your QRadar deployment:
 ```
 mkdir -p /tmp/wiotp
 cd /tmp/wiotp
-curl -LJO https://github.com/ibm-watson-iot/qradar-connector/blob/master/wiotp-qradar-contents/wiotp-ContentExport-20180418085125.zip
+curl -LJO https://github.com/ibm-watson-iot/qradar-connector/blob/master/wiotp-qradar-contents/wiotp-ContentExport-20180530135513.zip
 ```
 
 NOTE: If you don't have access to GitHub from your QRadar system, you will have to download on a system that has access to GitHub and then upload the file to your QRadar system.
@@ -220,7 +220,7 @@ NOTE: If you don't have access to GitHub from your QRadar system, you will have 
 
 ```
 cd /tmp/wiotp
-sudo /opt/qradar/bin/contentManagement.pl --action import -f wiotp-ContentExport-20180418085125.zip
+sudo /opt/qradar/bin/contentManagement.pl --action import -f wiotp-ContentExport-20180530135513.zip
 ```
 
 4. Using QRadar console, set Log Source Identifier to the IP address of the system where QRadar
