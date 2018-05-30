@@ -163,13 +163,15 @@ def processLogEvent(clientId, log):
 #
 def getDevices(client, device_limit, log_limit):
 
-    applogger.info("Start a new pool cycle ...")
+    # applogger.info("Start a new pool cycle ...")
     _getPageOfDevices(client, device_limit, log_limit, None )
 
 #
 # Get device data in chunks
 # 
 def _getPageOfDevices(client, device_limit, log_limit, bookmark):
+    global lastISOTime
+    global curISOTime
 
     deviceList = client.api.getDevices(parameters = {"_limit": device_limit, "_bookmark": bookmark, "_sort": "typeId,deviceId"})
     resultArray = deviceList['results']
@@ -183,11 +185,12 @@ def _getPageOfDevices(client, device_limit, log_limit, bookmark):
         deviceId = device["deviceId"]
         clientId = device["clientId"]
 
-        applogger.debug("ClientID=" + clientId)
+        # applogger.debug("ClientID=" + clientId)
 
         try:
             # get logs for the device 
             if log_limit == 0:
+                applogger.debug("clientID:" + clientId + " from:" + lastISOTime + " to:" + curISOTime); 
                 logresults = client.api.getConnectionLogs({"typeId":typeId, "deviceId":deviceId, "fromTime": lastISOTime, "toTime": curISOTime})
             else:
                 if log_limit == -1:
@@ -195,10 +198,15 @@ def _getPageOfDevices(client, device_limit, log_limit, bookmark):
                 else:
                     logresults = client.api.getConnectionLogs({"typeId":typeId, "deviceId":deviceId, "_limit": log-fetch-limit})
  
-  
+
+            logMsgCount = 0  
             for log in logresults:
                 processLogEvent(clientId, log)
                 applogger.debug(clientId + " LOGMSG=" + json.dumps(log))
+                logMsgCount += 1
+
+            if logMsgCount > 0:
+                applogger.info("ClientID:" + clientId + " Total events:" + str(logMsgCount))
 
         except Exception as e:
             applogger.error(str(e))
@@ -253,6 +261,8 @@ def getDataAndProcess():
     global startLoop
     global stopLoop
     global threadStopped
+    global lastISOTime
+    global curISOTime
 
     cycle = 0
     loop = 0
@@ -284,12 +294,16 @@ def getDataAndProcess():
     while True:
         if startLoop == 1:
             loop += 1
-            applogger.debug("Get Cycle: Loop [{0}] of [{1}]".format(str(loop),str(nloop)))
         
             # set current time
             curTime = time.gmtime()
             curISOTime = time.strftime("%Y-%m-%dT%H:%M:%S", curTime)
-    
+   
+            if nloop == 0: 
+                applogger.info("WIoTP Log Fetch cycle [{0}]: Time From:{1} To:{2}".format(str(loop),lastISOTime, curISOTime))
+            else:
+                applogger.info("WIoTP Log Fetch cycle [{0}] of [{1}]: Time From:{2} To:{3}".format(str(loop),str(nloop),lastISOTime, curISOTime))
+
             if len(test_log) > 0 and test_mode == 1:
                 # Get log from log file
                 getEventsFromLogFile(test_log)
@@ -410,5 +424,6 @@ def get_wiotp_data():
 
  
 if __name__ == '__main__':
+    startLoop = 1
     get_wiotp_data()
 

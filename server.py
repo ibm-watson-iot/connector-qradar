@@ -16,7 +16,7 @@ port = int(os.getenv('PORT', 8000))
 
 @app.route('/')
 def home():
-    print("Starting WIoTP QRadar-Connector Application")
+    print("WIoTP QRadar-Connector Application")
     return render_template('index.html')
 
 
