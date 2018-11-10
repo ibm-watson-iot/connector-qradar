@@ -196,7 +196,7 @@ def _getPageOfDevices(client, device_limit, log_limit, bookmark):
                 if log_limit == -1:
                     logresults = client.api.getConnectionLogs({"typeId":typeId, "deviceId":deviceId})
                 else:
-                    logresults = client.api.getConnectionLogs({"typeId":typeId, "deviceId":deviceId, "_limit": log-fetch-limit})
+                    logresults = client.api.getConnectionLogs({"typeId":typeId, "deviceId":deviceId, "_limit": log_limit})
  
 
             logMsgCount = 0  
